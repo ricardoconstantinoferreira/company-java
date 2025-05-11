@@ -51,19 +51,6 @@ public class FuncionarioController {
         return ResponseEntity.status(HttpStatus.OK).body(funcionarios);
     }
 
-    @GetMapping("/teste")
-    public HashMap<Integer, String>  getMap() {
-        String[] cars = {"Renault Logan", "Renault Clio", "Gol", "Fusca", "Ford Ka"};
-        HashMap<Integer, String> carList = new HashMap<>();
-
-        for (int i = 0; i < cars.length; i++) {
-            carList.put(i, cars[i]);
-        }
-
-        return carList;
-
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<Funcionario> update(
             @PathVariable(value = "id") String id,
