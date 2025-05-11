@@ -27,6 +27,10 @@ public class FuncionarioService {
         return funcionarioRepository.findAll();
     }
 
+    public List<Funcionario> getEmployeeByCompany(String id) {
+        return funcionarioRepository.findByEmpresaId(id);
+    }
+
     public void deleteById(String id) {
         funcionarioRepository.deleteById(id);
     }

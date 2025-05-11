@@ -43,6 +43,14 @@ public class FuncionarioController {
         return ResponseEntity.status(HttpStatus.OK).body(funcionario);
     }
 
+    @GetMapping("/company/{id}")
+    public ResponseEntity<List<Funcionario>> getEmployeeByCompany(
+            @PathVariable(value = "id") String id
+    ) {
+        List<Funcionario> funcionarios = funcionarioService.getEmployeeByCompany(id);
+        return ResponseEntity.status(HttpStatus.OK).body(funcionarios);
+    }
+
     @GetMapping("/teste")
     public HashMap<Integer, String>  getMap() {
         String[] cars = {"Renault Logan", "Renault Clio", "Gol", "Fusca", "Ford Ka"};
