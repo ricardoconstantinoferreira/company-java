@@ -2,6 +2,7 @@ package com.company.company.exceptions;
 
 import com.company.company.dto.EmpresaDTO;
 import com.company.company.dto.FuncionarioDTO;
+import com.company.company.dto.PerguntaDTO;
 
 public class Validator {
 
@@ -32,6 +33,13 @@ public class Validator {
 
         if (funcionarioDTO.empresa_id().isEmpty()) {
             throw new EmptyValueException("Por favor, informe a empresa do funcionário!");
+        }
+    }
+
+    public void validatePerguntas(PerguntaDTO perguntasDTO) throws EmptyValueException {
+
+        if (perguntasDTO.descricao().isEmpty()) {
+            throw new EmptyValueException("Por favor, informe a descrição da pergunta!");
         }
     }
  }
