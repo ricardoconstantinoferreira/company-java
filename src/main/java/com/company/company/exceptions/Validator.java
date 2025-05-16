@@ -3,6 +3,7 @@ package com.company.company.exceptions;
 import com.company.company.dto.EmpresaDTO;
 import com.company.company.dto.FuncionarioDTO;
 import com.company.company.dto.PerguntaDTO;
+import com.company.company.dto.RespostaDTO;
 
 public class Validator {
 
@@ -19,6 +20,7 @@ public class Validator {
         if (empresaDTO.cnpj().isEmpty()) {
             throw new EmptyValueException("Por favor, informe o CNPJ!");
         }
+
     }
 
     public void validateFuncionario(FuncionarioDTO funcionarioDTO) throws EmptyValueException {
@@ -34,6 +36,7 @@ public class Validator {
         if (funcionarioDTO.empresa_id().isEmpty()) {
             throw new EmptyValueException("Por favor, informe a empresa do funcionário!");
         }
+
     }
 
     public void validatePerguntas(PerguntaDTO perguntasDTO) throws EmptyValueException {
@@ -41,5 +44,14 @@ public class Validator {
         if (perguntasDTO.descricao().isEmpty()) {
             throw new EmptyValueException("Por favor, informe a descrição da pergunta!");
         }
+
+    }
+
+    public void validateRespostas(RespostaDTO respostaDTO) throws EmptyValueException {
+
+        if (respostaDTO.description().isEmpty()) {
+            throw new EmptyValueException("Por favor, informe a descrição da resposta!");
+        }
+
     }
  }
