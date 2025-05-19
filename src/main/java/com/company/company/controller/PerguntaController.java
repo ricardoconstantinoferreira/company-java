@@ -51,7 +51,7 @@ public class PerguntaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pergunta> getById(@PathVariable String id) {
+    public ResponseEntity<Pergunta> getById(@PathVariable(value = "id") String id) {
         Pergunta pergunta =  perguntaService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(pergunta);
     }

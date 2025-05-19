@@ -27,7 +27,7 @@ public class RespostaService {
     @Autowired
     private PerguntaRepository perguntaRepository;
 
-    public Resposta save(RespostaDTO respostaDTO) throws Exception {
+    public Resposta save(RespostaDTO respostaDTO, String id) throws Exception {
         Resposta resposta = new Resposta();
         Optional<Pergunta> pergunta = perguntaRepository.findById(respostaDTO.pergunta_id());
         Optional<Funcionario> funcionario = funcionarioRepository.findById(respostaDTO.funcionario_id());
@@ -38,6 +38,10 @@ public class RespostaService {
 
         if (funcionario.isEmpty()) {
             throw new Exception("Funcionário não existe!");
+        }
+
+        if (!id.isEmpty()) {
+            resposta.setId(id);
         }
 
         resposta.setDescription(respostaDTO.description());
@@ -55,7 +59,13 @@ public class RespostaService {
         return respostaRepository.findById(id).get();
     }
 
-    public void deleteById(String id) {
-        respostaRepository.deleteById(id);
+    public Resposta deleteById(String id) {
+        Resposta resposta = respostaRepository.findById(id).get();
+
+        if (!resposta.getId().isEmpty()) {
+            respostaRepository.deleteById(id);
+        }
+
+        return resposta;
     }
 }

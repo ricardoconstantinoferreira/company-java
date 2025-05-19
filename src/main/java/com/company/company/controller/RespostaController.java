@@ -7,10 +7,9 @@ import com.company.company.service.RespostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/answer")
@@ -24,7 +23,37 @@ public class RespostaController {
         Validator validator = new Validator();
         validator.validateRespostas(respostaDTO);
 
-        Resposta resposta = respostaService.save(respostaDTO);
+        Resposta resposta = respostaService.save(respostaDTO, "");
+        return ResponseEntity.status(HttpStatus.OK).body(resposta);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Resposta>> getAll() {
+        List<Resposta> respostas = respostaService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(respostas);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Resposta> getById(@PathVariable(value = "id") String id) {
+        Resposta resposta = respostaService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(resposta);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Resposta> update(
+            @PathVariable(value = "id") String id,
+            @RequestBody RespostaDTO respostaDTO
+    ) throws Exception {
+        Validator validator = new Validator();
+        validator.validateRespostas(respostaDTO);
+
+        Resposta resposta = respostaService.save(respostaDTO, id);
+        return ResponseEntity.status(HttpStatus.OK).body(resposta);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Resposta> delete(@PathVariable(value = "id") String id) {
+        Resposta resposta = respostaService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body(resposta);
     }
 }
