@@ -4,7 +4,6 @@ import com.company.company.dto.PerguntaDTO;
 import com.company.company.exceptions.Validator;
 import com.company.company.model.Pergunta;
 import com.company.company.service.PerguntaService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,7 @@ public class PerguntaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pergunta> getById(@PathVariable String id) {
+    public ResponseEntity<Pergunta> getById(@PathVariable(value = "id") String id) {
         Pergunta pergunta =  perguntaService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(pergunta);
     }

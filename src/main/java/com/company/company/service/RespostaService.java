@@ -1,0 +1,71 @@
+package com.company.company.service;
+
+import com.company.company.dto.RespostaDTO;
+import com.company.company.model.Funcionario;
+import com.company.company.model.Pergunta;
+import com.company.company.model.Resposta;
+import com.company.company.repository.FuncionarioRepository;
+import com.company.company.repository.PerguntaRepository;
+import com.company.company.repository.RespostaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@Transactional
+public class RespostaService {
+
+    @Autowired
+    private RespostaRepository respostaRepository;
+
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private PerguntaRepository perguntaRepository;
+
+    public Resposta save(RespostaDTO respostaDTO, String id) throws Exception {
+        Resposta resposta = new Resposta();
+        Optional<Pergunta> pergunta = perguntaRepository.findById(respostaDTO.pergunta_id());
+        Optional<Funcionario> funcionario = funcionarioRepository.findById(respostaDTO.funcionario_id());
+
+        if (pergunta.isEmpty()) {
+            throw new Exception("Pergunta não existe!");
+        }
+
+        if (funcionario.isEmpty()) {
+            throw new Exception("Funcionário não existe!");
+        }
+
+        if (!id.isEmpty()) {
+            resposta.setId(id);
+        }
+
+        resposta.setDescription(respostaDTO.description());
+        resposta.setFuncionario(funcionario.get());
+        resposta.setPergunta(pergunta.get());
+
+        return respostaRepository.save(resposta);
+    }
+
+    public List<Resposta> getAll() {
+        return respostaRepository.findAll();
+    }
+
+    public Resposta getById(String id) {
+        return respostaRepository.findById(id).get();
+    }
+
+    public Resposta deleteById(String id) {
+        Resposta resposta = respostaRepository.findById(id).get();
+
+        if (!resposta.getId().isEmpty()) {
+            respostaRepository.deleteById(id);
+        }
+
+        return resposta;
+    }
+}
