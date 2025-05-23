@@ -48,4 +48,23 @@ public class TituloService {
         return tituloRepository.save(titulo);
     }
 
+    public List<Titulo> getAll() {
+        return tituloRepository.findAll();
+    }
+
+    public Titulo getById(String id) {
+        Optional<Titulo> titulo = tituloRepository.findById(id);
+        return titulo.get();
+    }
+
+    public Titulo delete(String id) {
+        Titulo titulo = tituloRepository.findById(id).get();
+
+        if (!titulo.getDescricao().isEmpty()) {
+            tituloRepository.delete(titulo);
+        }
+
+        return titulo;
+    }
+
 }

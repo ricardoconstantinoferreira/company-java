@@ -44,7 +44,7 @@ public class Validator {
         }
     }
 
-    public void validateTitutlos(TituloDTO tituloDTO) throws EmptyValueException {
+    public void validateTitulos(TituloDTO tituloDTO) throws EmptyValueException {
         if (tituloDTO.descricao().isEmpty()) {
             throw new EmptyValueException("Por favor, informe a descrição do titulo!");
         }
