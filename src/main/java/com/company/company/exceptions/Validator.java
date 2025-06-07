@@ -39,7 +39,7 @@ public class Validator {
     }
 
     public void validateRespostas(RespostaDTO respostaDTO) throws EmptyValueException {
-        if (respostaDTO.description().isEmpty()) {
+        if (respostaDTO.perguntas().size() == 0) {
             throw new EmptyValueException("Por favor, informe a descrição da resposta!");
         }
     }
