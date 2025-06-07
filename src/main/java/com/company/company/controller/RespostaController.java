@@ -19,11 +19,11 @@ public class RespostaController {
     private RespostaService respostaService;
 
     @PostMapping
-    public ResponseEntity<Resposta> save(@RequestBody RespostaDTO respostaDTO) throws Exception {
+    public ResponseEntity<List<Resposta>> save(@RequestBody RespostaDTO respostaDTO) throws Exception {
         Validator validator = new Validator();
         validator.validateRespostas(respostaDTO);
 
-        Resposta resposta = respostaService.save(respostaDTO, "");
+        List<Resposta> resposta = respostaService.save(respostaDTO, "");
         return ResponseEntity.status(HttpStatus.OK).body(resposta);
     }
 
@@ -40,14 +40,14 @@ public class RespostaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Resposta> update(
+    public ResponseEntity<List<Resposta>> update(
             @PathVariable(value = "id") String id,
             @RequestBody RespostaDTO respostaDTO
     ) throws Exception {
         Validator validator = new Validator();
         validator.validateRespostas(respostaDTO);
 
-        Resposta resposta = respostaService.save(respostaDTO, id);
+        List<Resposta> resposta = respostaService.save(respostaDTO, id);
         return ResponseEntity.status(HttpStatus.OK).body(resposta);
     }
 
