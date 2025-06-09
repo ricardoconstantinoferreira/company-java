@@ -1,4 +1,8 @@
 package com.company.company.dto;
 
-public record PerguntaDTO(String descricao) {
+import com.company.company.model.Pergunta;
+
+import java.util.List;
+
+public record PerguntaDTO(List<Pergunta> pergunta) {
 }

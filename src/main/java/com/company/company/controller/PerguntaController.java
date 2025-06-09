@@ -25,28 +25,11 @@ public class PerguntaController {
     }
 
     @PostMapping
-    public ResponseEntity<Pergunta> save(@RequestBody PerguntaDTO perguntaDTO) {
-        Pergunta pergunta = new Pergunta();
-        Validator validate = new Validator();
-
-        validate.validatePerguntas(perguntaDTO);
-
-        pergunta.setDescricao(perguntaDTO.descricao());
-        Pergunta perguntaResult = perguntaService.save(pergunta);
-        return ResponseEntity.status(HttpStatus.OK).body(perguntaResult);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Pergunta> update(@PathVariable(value = "id") String id, @RequestBody PerguntaDTO perguntaDTO) {
-        Pergunta pergunta = new Pergunta();
+    public ResponseEntity<List<Pergunta>> save(@RequestBody PerguntaDTO perguntaDTO) {
         Validator validate = new Validator();
         validate.validatePerguntas(perguntaDTO);
 
-        Pergunta oldResult = perguntaService.getById(id);
-        pergunta.setId(oldResult.getId());
-        pergunta.setDescricao(perguntaDTO.descricao());
-
-        Pergunta perguntaResult = perguntaService.save(pergunta);
+        List<Pergunta> perguntaResult = perguntaService.save(perguntaDTO);
         return ResponseEntity.status(HttpStatus.OK).body(perguntaResult);
     }
 
