@@ -1,6 +1,9 @@
 package com.company.company.exceptions;
 
 import com.company.company.dto.*;
+import com.company.company.model.Pergunta;
+
+import java.util.List;
 
 public class Validator {
 
@@ -33,8 +36,12 @@ public class Validator {
     }
 
     public void validatePerguntas(PerguntaDTO perguntasDTO) throws EmptyValueException {
-        if (perguntasDTO.descricao().isEmpty()) {
-            throw new EmptyValueException("Por favor, informe a descrição da pergunta!");
+        List<Pergunta> descricao = perguntasDTO.pergunta();
+
+        for (Pergunta desc: descricao) {
+            if (desc.getDescricao().isEmpty()) {
+                throw new EmptyValueException("Por favor, pergunta obrigatória!");
+            }
         }
     }
 
