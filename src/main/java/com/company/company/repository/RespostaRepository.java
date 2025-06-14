@@ -13,4 +13,5 @@ public interface RespostaRepository extends MongoRepository<Resposta, String> {
 
     @Query(value = "{funcionario:?0}")
     List<Resposta> findByRespostaByFuncionario(Funcionario funcionario);
+
 }
