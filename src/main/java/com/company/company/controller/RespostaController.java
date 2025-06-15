@@ -57,9 +57,12 @@ public class RespostaController {
         return ResponseEntity.status(HttpStatus.OK).body(resposta);
     }
 
-    @GetMapping("/answer-by-question-id/{id}")
-    public ResponseEntity<Resposta> getAnswerByQuestionById(@PathVariable(value = "id") String id) {
-        Resposta resposta = respostaService.getAnswerByQuestionById(id);
+    @GetMapping("/answer-by-question-id/{perguntaId}/{funcionarioId}")
+    public ResponseEntity<Resposta> getAnswerByQuestionById(
+            @PathVariable(value = "perguntaId") String perguntaId,
+            @PathVariable(value = "funcionarioId") String funcionarioId
+    ) {
+        Resposta resposta = respostaService.getAnswerByQuestionById(perguntaId, funcionarioId);
         return ResponseEntity.status(HttpStatus.OK).body(resposta);
     }
 }
