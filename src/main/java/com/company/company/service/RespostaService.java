@@ -64,6 +64,11 @@ public class RespostaService {
         return respostaRepository.findAll();
     }
 
+    public Resposta getAnswerByQuestionById(String perguntaId) {
+        Resposta resposta = respostaRepository.findByPerguntaId(perguntaId);
+        return resposta;
+    }
+
     public Resposta getById(String id) {
         return respostaRepository.findById(id).get();
     }

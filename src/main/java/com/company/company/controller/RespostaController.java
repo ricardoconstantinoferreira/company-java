@@ -56,4 +56,10 @@ public class RespostaController {
         Resposta resposta = respostaService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body(resposta);
     }
+
+    @GetMapping("/answer-by-question-id/{id}")
+    public ResponseEntity<Resposta> getAnswerByQuestionById(@PathVariable(value = "id") String id) {
+        Resposta resposta = respostaService.getAnswerByQuestionById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(resposta);
+    }
 }
