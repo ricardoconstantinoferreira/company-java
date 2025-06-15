@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -54,5 +55,11 @@ public class TituloController {
     public ResponseEntity<Titulo> delete(@PathVariable(value = "id") String id) {
         Titulo titulo = tituloService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body(titulo);
+    }
+
+    @GetMapping("/get-title-by-employee/{id}")
+    public ResponseEntity<HashMap<String, String>> getTitleByEmployee(@PathVariable(value = "id") String id) {
+        HashMap<String, String> titulos = tituloService.getTitleByEmployee(id);
+        return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 }
