@@ -64,9 +64,18 @@ public class RespostaService {
         return respostaRepository.findAll();
     }
 
-    public Resposta getAnswerByQuestionById(String perguntaId) {
-        Resposta resposta = respostaRepository.findByPerguntaId(perguntaId);
-        return resposta;
+    public Resposta getAnswerByQuestionById(String perguntaId, String funcionarioId) {
+        Resposta respostaResult = null;
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).get();
+        List<Resposta> respostas =  respostaRepository.findByRespostaByFuncionario(funcionario);
+
+        for(Resposta resposta: respostas) {
+            if (resposta.getPergunta().getId().equals(perguntaId)) {
+                respostaResult = resposta;
+            }
+        }
+
+        return respostaResult;
     }
 
     public Resposta getById(String id) {
