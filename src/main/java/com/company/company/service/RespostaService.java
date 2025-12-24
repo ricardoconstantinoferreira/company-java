@@ -1,10 +1,8 @@
 package com.company.company.service;
 
 import com.company.company.dto.RespostaDTO;
-import com.company.company.model.Funcionario;
-import com.company.company.model.Pergunta;
-import com.company.company.model.PerguntaResposta;
-import com.company.company.model.Resposta;
+import com.company.company.model.*;
+import com.company.company.repository.EmpresaRepository;
 import com.company.company.repository.FuncionarioRepository;
 import com.company.company.repository.PerguntaRepository;
 import com.company.company.repository.RespostaRepository;
@@ -28,6 +26,12 @@ public class RespostaService {
 
     @Autowired
     private PerguntaRepository perguntaRepository;
+
+    @Autowired
+    private EmpresaRepository empresaRepository;
+
+    @Autowired
+    private TituloService tituloService;
 
     public List<Resposta> save(RespostaDTO respostaDTO, String id) throws Exception {
         List<Resposta> resultado = new ArrayList<>();
@@ -90,5 +94,40 @@ public class RespostaService {
         }
 
         return resposta;
+    }
+
+    public List<RespostasEmpresa> getAnswerByCompany() {
+        ArrayList<RespostasEmpresa> respostasEmpresasElements = new ArrayList<>();
+        List<Pergunta> perguntas = new ArrayList<>();
+
+        List<Empresa> empresas = empresaRepository.findAll();
+
+        if (!empresas.isEmpty()) {
+            for (Empresa empresa: empresas) {
+                List<Funcionario> funcionarios = funcionarioRepository.findByEmpresaId(empresa.getId());
+
+                if (!funcionarios.isEmpty()) {
+                    for (Funcionario funcionario : funcionarios) {
+                        List<Resposta> respostas = respostaRepository.findByRespostaByFuncionario(funcionario);
+
+                        for (Resposta resposta : respostas) {
+                            perguntas.add(resposta.getPergunta());
+                        }
+                    }
+
+                    List<String> resultadoPerguntas = tituloService.getTitleByQuestion(perguntas, funcionarios);
+
+                    RespostasEmpresa respostasEmpresa = new RespostasEmpresa();
+                    respostasEmpresa.setEmpresaNome(empresa.getNome_fantasia());
+                    respostasEmpresa.setTotalRespostas(Long.valueOf(resultadoPerguntas.size()));
+
+                    respostasEmpresasElements.add(respostasEmpresa);
+                    perguntas = new ArrayList<>();
+                }
+            }
+        }
+
+        return respostasEmpresasElements;
+
     }
 }

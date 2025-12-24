@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -99,6 +100,18 @@ public class TituloService {
         }
 
         return titulosMap;
+    }
+
+    public List<String> getTitleByQuestion(List<Pergunta> perguntas, List<Funcionario> funcionario) {
+        List<String> descTitulo = new ArrayList<>();
+
+        for (Pergunta pergunta: perguntas) {
+            Titulo titulo = tituloRepository.findByTituloByPergunta(pergunta);
+            descTitulo.add(titulo.getDescricao());
+        }
+
+        List<String> descTituloClear = descTitulo.stream().distinct().collect(Collectors.toUnmodifiableList());
+        return descTituloClear;
     }
 
 }
