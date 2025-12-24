@@ -3,7 +3,9 @@ package com.company.company.controller;
 import com.company.company.dto.RespostaDTO;
 import com.company.company.exceptions.Validator;
 import com.company.company.model.Resposta;
+import com.company.company.model.RespostasEmpresa;
 import com.company.company.service.RespostaService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,5 +66,11 @@ public class RespostaController {
     ) {
         Resposta resposta = respostaService.getAnswerByQuestionById(perguntaId, funcionarioId);
         return ResponseEntity.status(HttpStatus.OK).body(resposta);
+    }
+
+    @GetMapping("/answer-by-company")
+    public ResponseEntity<List<RespostasEmpresa>> getAnswerByCompany() {
+        List<RespostasEmpresa> empresas = respostaService.getAnswerByCompany();
+        return ResponseEntity.status(HttpStatus.OK).body(empresas);
     }
 }
