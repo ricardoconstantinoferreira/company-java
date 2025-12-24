@@ -7,11 +7,9 @@ import com.company.company.repository.FuncionarioRepository;
 import com.company.company.repository.PerguntaRepository;
 import com.company.company.repository.RespostaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +31,7 @@ public class RespostaService {
     private EmpresaRepository empresaRepository;
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private TituloService tituloService;
 
     public List<Resposta> save(RespostaDTO respostaDTO, String id) throws Exception {
         List<Resposta> resultado = new ArrayList<>();
@@ -100,6 +98,7 @@ public class RespostaService {
 
     public List<RespostasEmpresa> getAnswerByCompany() {
         ArrayList<RespostasEmpresa> respostasEmpresasElements = new ArrayList<>();
+        List<Pergunta> perguntas = new ArrayList<>();
 
         List<Empresa> empresas = empresaRepository.findAll();
 
@@ -111,12 +110,19 @@ public class RespostaService {
                     for (Funcionario funcionario : funcionarios) {
                         List<Resposta> respostas = respostaRepository.findByRespostaByFuncionario(funcionario);
 
-                        RespostasEmpresa respostasEmpresa = new RespostasEmpresa();
-                        respostasEmpresa.setEmpresaNome(funcionario.getEmpresa().getNome_fantasia());
-                        respostasEmpresa.setTotalRespostas(Long.valueOf(respostas.size()));
-
-                        respostasEmpresasElements.add(respostasEmpresa);
+                        for (Resposta resposta : respostas) {
+                            perguntas.add(resposta.getPergunta());
+                        }
                     }
+
+                    List<String> resultadoPerguntas = tituloService.getTitleByQuestion(perguntas, funcionarios);
+
+                    RespostasEmpresa respostasEmpresa = new RespostasEmpresa();
+                    respostasEmpresa.setEmpresaNome(empresa.getNome_fantasia());
+                    respostasEmpresa.setTotalRespostas(Long.valueOf(resultadoPerguntas.size()));
+
+                    respostasEmpresasElements.add(respostasEmpresa);
+                    perguntas = new ArrayList<>();
                 }
             }
         }
