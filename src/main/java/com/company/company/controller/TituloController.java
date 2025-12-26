@@ -2,6 +2,7 @@ package com.company.company.controller;
 
 import com.company.company.dto.TituloDTO;
 import com.company.company.exceptions.Validator;
+import com.company.company.model.RespostasFuncionario;
 import com.company.company.model.Titulo;
 import com.company.company.service.TituloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,12 @@ public class TituloController {
     @GetMapping("/get-title-by-employee/{id}")
     public ResponseEntity<HashMap<String, String>> getTitleByEmployee(@PathVariable(value = "id") String id) {
         HashMap<String, String> titulos = tituloService.getTitleByEmployee(id);
+        return ResponseEntity.status(HttpStatus.OK).body(titulos);
+    }
+
+    @GetMapping("/get-title-by-employee-all")
+    public ResponseEntity<List<RespostasFuncionario>> getTitleByEmployeeAll() {
+        List<RespostasFuncionario>  titulos = tituloService.getTitleByEmployeeAll();
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 }
