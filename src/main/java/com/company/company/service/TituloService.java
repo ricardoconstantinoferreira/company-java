@@ -102,7 +102,7 @@ public class TituloService {
         return titulosMap;
     }
 
-    public List<String> getTitleByQuestion(List<Pergunta> perguntas, List<Funcionario> funcionario) {
+    public List<String> getTitleByQuestion(List<Pergunta> perguntas) {
         List<String> descTitulo = new ArrayList<>();
 
         for (Pergunta pergunta: perguntas) {
