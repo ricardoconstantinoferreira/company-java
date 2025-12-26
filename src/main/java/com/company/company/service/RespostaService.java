@@ -98,8 +98,6 @@ public class RespostaService {
 
     public List<RespostasEmpresa> getAnswerByCompany() {
         ArrayList<RespostasEmpresa> respostasEmpresasElements = new ArrayList<>();
-        List<Pergunta> perguntas = new ArrayList<>();
-
         List<Empresa> empresas = empresaRepository.findAll();
 
         if (!empresas.isEmpty()) {
@@ -107,27 +105,25 @@ public class RespostaService {
                 List<Funcionario> funcionarios = funcionarioRepository.findByEmpresaId(empresa.getId());
 
                 if (!funcionarios.isEmpty()) {
+                    RespostasEmpresa respostasEmpresa = new RespostasEmpresa();
+                    Long contResp = 0L;
                     for (Funcionario funcionario : funcionarios) {
+                        List<Pergunta> perguntas = new ArrayList<>();
                         List<Resposta> respostas = respostaRepository.findByRespostaByFuncionario(funcionario);
 
                         for (Resposta resposta : respostas) {
                             perguntas.add(resposta.getPergunta());
                         }
+
+                        List<String> resultadoPerguntas = tituloService.getTitleByQuestion(perguntas);
+                        respostasEmpresa.setEmpresaNome(empresa.getNome_fantasia());
+                        contResp = contResp + Long.valueOf(resultadoPerguntas.size());
+                        respostasEmpresa.setTotalRespostas(contResp);
                     }
-
-                    List<String> resultadoPerguntas = tituloService.getTitleByQuestion(perguntas, funcionarios);
-
-                    RespostasEmpresa respostasEmpresa = new RespostasEmpresa();
-                    respostasEmpresa.setEmpresaNome(empresa.getNome_fantasia());
-                    respostasEmpresa.setTotalRespostas(Long.valueOf(resultadoPerguntas.size()));
-
                     respostasEmpresasElements.add(respostasEmpresa);
-                    perguntas = new ArrayList<>();
                 }
             }
         }
-
         return respostasEmpresasElements;
-
     }
 }
