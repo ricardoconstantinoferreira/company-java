@@ -1,10 +1,7 @@
 package com.company.company.service;
 
 import com.company.company.dto.TituloDTO;
-import com.company.company.model.Funcionario;
-import com.company.company.model.Pergunta;
-import com.company.company.model.Resposta;
-import com.company.company.model.Titulo;
+import com.company.company.model.*;
 import com.company.company.repository.FuncionarioRepository;
 import com.company.company.repository.PerguntaRepository;
 import com.company.company.repository.RespostaRepository;
@@ -100,6 +97,38 @@ public class TituloService {
         }
 
         return titulosMap;
+    }
+
+    public List<RespostasFuncionario> getTitleByEmployeeAll() {
+        List<RespostasFuncionario> respostasFuncionarios = new ArrayList<>();
+        List<Funcionario> funcionarios = funcionarioRepository.findAll();
+
+        for (Funcionario funcionario: funcionarios) {
+            HashMap<String, String> titulosMap = new HashMap<>();
+            List<Resposta> respostas = respostaRepository.findByRespostaByFuncionario(funcionario);
+            List<String> perguntas = new ArrayList<>();
+
+            for (Resposta resposta : respostas) {
+                perguntas.add(resposta.getPergunta().getId());
+            }
+
+            List<Titulo> titulos = tituloRepository.findAll();
+
+            for (Titulo titulo: titulos) {
+                for (Pergunta pergunta: titulo.getPergunta()) {
+                    if (perguntas.contains(pergunta.getId())) {
+                        titulosMap.put(titulo.getId(), titulo.getDescricao());
+                    }
+                }
+            }
+
+            RespostasFuncionario respostasFuncionario = new RespostasFuncionario();
+            respostasFuncionario.setFuncionarioNome(funcionario.getName());
+            respostasFuncionario.setTotalRespostas(Long.valueOf(titulosMap.size()));
+            respostasFuncionarios.add(respostasFuncionario);
+        }
+
+        return respostasFuncionarios;
     }
 
     public List<String> getTitleByQuestion(List<Pergunta> perguntas) {
